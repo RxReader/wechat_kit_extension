@@ -7,4 +7,4 @@ An extension package for wechat_kit.
 
 ## Get started
 
-`flutter pub wechat_kit_extension` .
+`flutter pub add wechat_kit_extension` .
