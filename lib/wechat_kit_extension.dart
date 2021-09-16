@@ -3,8 +3,6 @@ library wechat_kit_extension;
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:json_annotation/json_annotation.dart';
-
 part 'wechat_kit_extension.g.dart';
 
 /// The extension class for `wechat_kit`.
@@ -21,7 +19,7 @@ class WechatExtension {
     required String appSecret,
     required String code,
   }) {
-    return _createFactory(
+    return _createResponse(
       creator: _$WechatAccessTokenRespFromJson,
       url: 'https://api.weixin.qq.com/sns/oauth2/access_token'
           '?appid=$appId'
@@ -36,7 +34,7 @@ class WechatExtension {
     required String appId,
     required String refreshToken,
   }) {
-    return _createFactory(
+    return _createResponse(
       creator: _$WechatAccessTokenRespFromJson,
       url: 'https://api.weixin.qq.com/sns/oauth2/refresh_token'
           '?appid=$appId'
@@ -50,7 +48,7 @@ class WechatExtension {
     required String openId,
     required String accessToken,
   }) {
-    return _createFactory(
+    return _createResponse(
       creator: _$WechatUserInfoRespFromJson,
       url: 'https://api.weixin.qq.com/sns/userinfo'
           '?access_token=$accessToken'
@@ -67,7 +65,7 @@ class WechatExtension {
     required String appId,
     required String appSecret,
   }) {
-    return _createFactory(
+    return _createResponse(
       creator: _$WechatAccessTokenRespFromJson,
       url: 'https://api.weixin.qq.com/cgi-bin/token'
           '?grant_type=client_credential'
@@ -80,7 +78,7 @@ class WechatExtension {
   static Future<WechatTicketResp> getTicket({
     required String accessToken,
   }) {
-    return _createFactory(
+    return _createResponse(
       creator: _$WechatTicketRespFromJson,
       url: 'https://api.weixin.qq.com/cgi-bin/token'
           'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
@@ -102,9 +100,7 @@ abstract class WechatAPIResp {
   /// 40001	 AppSecret 错误或者 AppSecret 不属于这个公众号，请开发者确认 AppSecret 的正确性
   /// 40002  请确保 grant_type 字段值为 client_credential
   /// 40164  调用接口的 IP 地址不在白名单中，请在接口 IP 白名单中进行设置。（小程序及小游戏调用不要求 IP 地址在白名单内。）
-  @JsonKey(name: 'errcode', defaultValue: errorCodeSuccess)
   final int errorCode;
-  @JsonKey(name: 'errmsg')
   final String? errorMsg;
 
   bool get isSuccessful => errorCode == errorCodeSuccess;
@@ -115,7 +111,6 @@ abstract class WechatAPIResp {
   String toString() => const JsonEncoder.withIndent('  ').convert(toJson());
 }
 
-@JsonSerializable()
 class WechatAccessTokenResp extends WechatAPIResp {
   const WechatAccessTokenResp({
     required int errorCode,
@@ -140,7 +135,6 @@ class WechatAccessTokenResp extends WechatAPIResp {
   Map<String, dynamic> toJson() => _$WechatAccessTokenRespToJson(this);
 }
 
-@JsonSerializable()
 class WechatTicketResp extends WechatAPIResp {
   const WechatTicketResp({
     required int errorCode,
@@ -159,7 +153,6 @@ class WechatTicketResp extends WechatAPIResp {
   Map<String, dynamic> toJson() => _$WechatTicketRespToJson(this);
 }
 
-@JsonSerializable()
 class WechatUserInfoResp extends WechatAPIResp {
   const WechatUserInfoResp({
     required int errorCode,
@@ -200,7 +193,7 @@ typedef _DataFactory<T extends WechatAPIResp> = T Function(
   Map<String, dynamic>,
 );
 
-Future<T> _createFactory<T extends WechatAPIResp>({
+Future<T> _createResponse<T extends WechatAPIResp>({
   required _DataFactory<T> creator,
   required String url,
 }) async {
