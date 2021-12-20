@@ -80,8 +80,7 @@ class WechatExtension {
   }) {
     return _createResponse(
       creator: _$WechatTicketRespFromJson,
-      url: 'https://api.weixin.qq.com/cgi-bin/token'
-          'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
+      url: 'https://api.weixin.qq.com/cgi-bin/ticket/getticket'
           '?access_token=$accessToken'
           '&type=2',
     );
