@@ -1,6 +1,6 @@
 name: wechat_kit_extension
 description: An extension package for wechat_kit, including WeChat API integrations.
-version: 1.0.0+1
+version: 1.0.1
 homepage: https://github.com/RxReader/wechat_kit_extension
 
 environment:
@@ -8,4 +8,4 @@ environment:
   flutter: ">=2.0.0"
 
 dev_dependencies:
-  flutter_lints: ^1.0.0
+  flutter_lints: any
