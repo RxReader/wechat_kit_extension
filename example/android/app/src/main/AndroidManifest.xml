@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.wechat_kit_extension_example">
-   <application
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
         android:label="wechat_kit_extension_example"
         android:icon="@mipmap/ic_launcher">
         <activity
